@@ -161,3 +161,5 @@ cython_debug/
 !/venv/
 !/prodeco/data.csv
 !/prodeco/includes/data.csv
+!/prodeco/herbolarionavarro.csv
+!/temp

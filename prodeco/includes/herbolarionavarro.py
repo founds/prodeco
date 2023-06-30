@@ -147,5 +147,3 @@ class herbolarionavarro():
         finally:
             if page is not None:
                 page.close()
-
-herbolarionavarro()

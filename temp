@@ -1,0 +1,63 @@
+
+
+
+
+
+        for urlcategory in lstcategories:
+            print(Fore.BLUE + "  # Procesando: " + Fore.RESET + Fore.GREEN + urlcategory[0] + Fore.RESET)
+            url = url_base + urlcategory[1]
+            page = urlopen(url)
+            soup_obj = BeautifulSoup(page, 'html.parser')
+
+            # Obtener subcategorias
+            subsources = soup_obj.findAll('p', attrs={'class': 'max-w-6xl'})
+
+            for num, subsource in enumerate(subsources):
+                if num == 0:
+                    datos = self.getProd(soup_obj, urlcategory[0], '')
+                elif num == 1:
+                    subcategories = subsource.findAll('a', href=True)
+                    for urlsubcategory in lstsubcategories:
+                        print(urlsubcategory)
+                        # Obtener URL y Titulo
+                        lstsubcategories.append([urlsubcategory.text, urlsubcategory['href']])
+                        url = url_base + urlsubcategory[0]
+                        page = urlopen(url)
+                        soup_obj = BeautifulSoup(page, 'html.parser')
+                        datos = self.getProd(soup_obj, urlsubcategory[0], '')
+                else:
+                    print(Fore.RED + "No ha habido datos de subcategorias de los productos." + Fore.RESET)
+
+                lstproducts.append(datos)
+
+        numSubCategories = len(lstsubcategories)
+        print(Fore.BLUE + "    - Nº de subcategorias encontradas: " + Fore.RESET + Fore.GREEN + str(
+            numSubCategories) + Fore.RESET)
+
+        numproducts = len(lstproducts)
+        print(Fore.BLUE + " Nº de productos encontrados: " + Fore.RESET + Fore.GREEN + str(
+            numproducts) + Fore.RESET)
+
+        # escibir datos
+        with open('datos.csv', mode='a') as file:
+            writer = csv.DictWriter(file, delimiter=',', fieldnames=columns)
+            writer.writeheader()
+
+            if len(lstproducts) >= 1:
+                for product in lstproducts[0]:
+                    writer.writerow(product)
+            else:
+                for product in lstproducts:
+                    writer.writerow(product)
+
+
+
+
+
+
+    def writedata(self):
+        csvfile = open('datas.csv', 'a')
+        csvwriter = csv.writer(csvfile)
+
+
+ProdEco()
