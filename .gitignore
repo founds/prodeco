@@ -170,3 +170,6 @@ cython_debug/
 !/prodeco/Datasources/
 !/.idea/
 !/prodeco/Datasources/herbolarionavarro_2023-06-30.csv
+!/prodeco/Datasources/
+/prodeco/Datasources/
+/prodeco/Datasources/*
