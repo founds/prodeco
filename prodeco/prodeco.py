@@ -18,5 +18,5 @@ class Prodeco():
         print(Fore.BLUE + "######################################################" + Fore.RESET)
         herbolarionavarro()
 
-        
+
 Prodeco()
