@@ -4,8 +4,10 @@
 
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from urllib.error import HTTPError, URLError
 from colorama import init, Fore, Back, Style
 import pandas as pd
+import datetime
 
 
 class herbolarionavarro():
@@ -45,25 +47,30 @@ class herbolarionavarro():
                     urlsub = url_base + subitem[1]
                     self.lstproducts.append(self.getProd(item[0], subitem[0], urlsub))
 
-        numproducts = len(self.lstproducts)
+        productsproc = []
+        for i in self.lstproducts:
+            if not i is None:
+                for x in i:
+                    productsproc.append(x)
 
-        print(Fore.BLUE + "# Nº de productos: " + Fore.RESET + Fore.GREEN + str(
+        numproducts = len(productsproc)
+
+        print(Fore.BLUE + "# Nº de productos total: " + Fore.RESET + Fore.GREEN + str(
             numproducts) + Fore.RESET)
 
-        print(self.lstproducts)
-        print("###################################")
-        for i in self.lstproducts:
-            print(i)
+        df = pd.DataFrame(productsproc)
 
-        df = pd.DataFrame(self.lstproducts)
-        df.to_csv("data.csv", header=False, sep=',')
+        # Columnas de datos
+        columns = ['categoria', 'subcategoria', 'nombre', 'marca', 'peso', 'precio', 'fecha']
+
+        df.to_csv("herbolarionavarro.csv", sep=',', encoding='utf-8', header=columns)
 
     def getCategories(self, url):
 
         lstcategories = []
         page = None
         try:
-            page = urlopen(url)
+            page = urlopen(url, timeout=10)
             soup_obj = BeautifulSoup(page, 'html.parser')
 
             # Obtener categorias
@@ -87,6 +94,12 @@ class herbolarionavarro():
             return lstcategories
         except Exception as ex:
             print(Fore.RED + str(ex) + Fore.RESET)
+        except HTTPError as error:
+            print(error.status, error.reason)
+        except URLError as error:
+            print(error.reason)
+        except TimeoutError:
+            print(Fore.RED + "Request timed out" + Fore.RESET)
         finally:
             if page is not None:
                 page.close()
@@ -95,7 +108,7 @@ class herbolarionavarro():
     def getProd(self, category, subcategory, url):
         page = None
         try:
-            page = urlopen(url)
+            page = urlopen(url, timeout=10)
             soup_obj = BeautifulSoup(page, 'html.parser')
             products = soup_obj.findAll('div', attrs={'class': 'product-product-card'})
 
@@ -112,7 +125,8 @@ class herbolarionavarro():
                     'nombre': title.text.lstrip(),
                     'marca': brand.text,
                     'peso': size.text,
-                    'precio': price.text
+                    'precio': price.text.replace('\xa0€', ''),
+                    'fecha': datetime.datetime.now().date()
                 }
 
                 lstproducts.append(datos)
@@ -124,6 +138,12 @@ class herbolarionavarro():
             return lstproducts
         except Exception as ex:
             print(Fore.RED + str(ex) + Fore.RESET)
+        except HTTPError as error:
+            print(error.status, error.reason)
+        except URLError as error:
+            print(error.reason)
+        except TimeoutError:
+            print(Fore.RED + "Request timed out" + Fore.RESET)
         finally:
             if page is not None:
                 page.close()
