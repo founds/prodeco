@@ -8,12 +8,19 @@ from urllib.error import HTTPError, URLError
 from colorama import init, Fore, Back, Style
 import pandas as pd
 import datetime
+import os
+import sys
 
+
+VERSION = "0.1"
 
 class herbolarionavarro():
-    def __init__(self):
+    def __init__(self, path=None):
         # Iniciar colorama
         init()
+
+        if path is None:
+            path = os.path.abspath(os.path.dirname(sys.argv[0])) + "/"
 
         #Variables
         # Lista de URLS y Titulos
@@ -43,27 +50,34 @@ class herbolarionavarro():
                 self.lstproducts.append(self.getProd(item[0], '', url))
             else:
                 for subitem in data:
-                    print(Fore.BLUE + "### Procesando: " + Fore.RESET + Fore.GREEN + subitem[0] + Fore.RESET)
+                    print(Fore.BLUE + "  ### Procesando: " + Fore.RESET + Fore.GREEN + subitem[0] + Fore.RESET)
                     urlsub = url_base + subitem[1]
                     self.lstproducts.append(self.getProd(item[0], subitem[0], urlsub))
 
-        productsproc = []
+        self.productsproc = []
         for i in self.lstproducts:
             if not i is None:
                 for x in i:
-                    productsproc.append(x)
+                    self.productsproc.append(x)
 
-        numproducts = len(productsproc)
+        numproducts = len(self.productsproc)
 
-        print(Fore.BLUE + "# Nº de productos total: " + Fore.RESET + Fore.GREEN + str(
-            numproducts) + Fore.RESET)
-
-        df = pd.DataFrame(productsproc)
+        df = pd.DataFrame(self.productsproc)
 
         # Columnas de datos
         columns = ['categoria', 'subcategoria', 'nombre', 'marca', 'peso', 'precio', 'fecha']
+        date = datetime.datetime.now().date()
+        df.to_csv(path + "herbolarionavarro_" + str(date) + ".csv", sep=',', encoding='utf-8', header=columns)
 
-        df.to_csv("herbolarionavarro.csv", sep=',', encoding='utf-8', header=columns)
+        numsubCategories = len(self.lstsubcategories[0])
+        self.results(numCategories, numsubCategories, numproducts)
+
+    # Devuelve el resultado por limitacion en init de la clase
+    def results(self):
+        numCategories = len(self.lstcategories)
+        numsubCategories = len(self.lstsubcategories)
+        numproducts = len(self.productsproc)
+        return numCategories, numsubCategories, numproducts
 
     def getCategories(self, url):
 
@@ -88,7 +102,7 @@ class herbolarionavarro():
                     print(Fore.RED + "No ha habido datos de categorias de los productos." + Fore.RESET)
 
             numCategories = len(lstcategories)
-            print(Fore.BLUE + "- Nº de categorias encontradas: " + Fore.RESET + Fore.GREEN + str(
+            print(Fore.BLUE + "   - Nº de categorias encontradas: " + Fore.RESET + Fore.GREEN + str(
                 numCategories) + Fore.RESET)
 
             return lstcategories

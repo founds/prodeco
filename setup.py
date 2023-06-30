@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='prodeco',
-    version='0.1',
+    version='0.2',
     packages=[''],
     url='https://www.altsys.es',
     license='Apache 2.0',
