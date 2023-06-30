@@ -27,7 +27,7 @@ class Prodeco():
 
         DS = os.path.abspath(os.path.dirname(sys.argv[0])) + "/Datasources/"
 
-        categories, subcategories, products = herbolarionavarro(DS).results()
+        categories, subcategories, products = herbolarionavarro(DS).start()
 
         print(Fore.BLUE + "# Herbolario Navarro" + Fore.RESET)
         print(Fore.BLUE + "# Nº de Categorías total: " + Fore.RESET + Fore.GREEN + str(

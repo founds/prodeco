@@ -12,7 +12,7 @@ import os
 import sys
 
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 class herbolarionavarro():
     def __init__(self, path=None):
@@ -37,11 +37,8 @@ class herbolarionavarro():
 
         numCategories = len(self.lstcategories[0])
 
-        print(Fore.BLUE + "# Nº de categorias: " + Fore.RESET + Fore.GREEN + str(
-            numCategories) + Fore.RESET)
-
         for item in self.lstcategories[0]:
-            print(Fore.BLUE + "## Procesando: " + Fore.RESET + Fore.GREEN + item[1] + Fore.RESET)
+            #print(Fore.BLUE + "## Procesando: " + Fore.RESET + Fore.GREEN + item[1] + Fore.RESET)
             data = self.getCategories(url_base + item[1])
             if data is None:
                 continue
@@ -50,7 +47,7 @@ class herbolarionavarro():
                 self.lstproducts.append(self.getProd(item[0], '', url))
             else:
                 for subitem in data:
-                    print(Fore.BLUE + "  ### Procesando: " + Fore.RESET + Fore.GREEN + subitem[0] + Fore.RESET)
+                    #print(Fore.BLUE + "  ### Procesando: " + Fore.RESET + Fore.GREEN + subitem[0] + Fore.RESET)
                     urlsub = url_base + subitem[1]
                     self.lstproducts.append(self.getProd(item[0], subitem[0], urlsub))
 
@@ -69,11 +66,10 @@ class herbolarionavarro():
         date = datetime.datetime.now().date()
         df.to_csv(path + "herbolarionavarro_" + str(date) + ".csv", sep=',', encoding='utf-8', header=columns)
 
-        numsubCategories = len(self.lstsubcategories[0])
-        self.results(numCategories, numsubCategories, numproducts)
-
     # Devuelve el resultado por limitacion en init de la clase
-    def results(self):
+    def start(self):
+        print(self.lstcategories)
+        print(self.lstsubcategories)
         numCategories = len(self.lstcategories)
         numsubCategories = len(self.lstsubcategories)
         numproducts = len(self.productsproc)
@@ -102,8 +98,8 @@ class herbolarionavarro():
                     print(Fore.RED + "No ha habido datos de categorias de los productos." + Fore.RESET)
 
             numCategories = len(lstcategories)
-            print(Fore.BLUE + "   - Nº de categorias encontradas: " + Fore.RESET + Fore.GREEN + str(
-                numCategories) + Fore.RESET)
+            #print(Fore.BLUE + "   - Nº de categorias encontradas: " + Fore.RESET + Fore.GREEN + str(
+            #    numCategories) + Fore.RESET)
 
             return lstcategories
         except Exception as ex:
@@ -146,8 +142,8 @@ class herbolarionavarro():
                 lstproducts.append(datos)
 
             numproducts = len(lstproducts)
-            print(Fore.BLUE + "- Nº de productos encontrados: " + Fore.RESET + Fore.GREEN + str(
-                numproducts) + Fore.RESET)
+            #print(Fore.BLUE + "- Nº de productos encontrados: " + Fore.RESET + Fore.GREEN + str(
+            #    numproducts) + Fore.RESET)
 
             return lstproducts
         except Exception as ex:
