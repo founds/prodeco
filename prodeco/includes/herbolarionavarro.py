@@ -12,7 +12,7 @@ import os
 import sys
 
 
-VERSION = "0.2"
+VERSION = "0.3"
 
 class herbolarionavarro():
     def __init__(self, path=None):
