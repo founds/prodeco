@@ -178,3 +178,6 @@ cython_debug/
 !/prodeco/prodeco.build/
 !/prodeco/dist/
 !/prodeco/build/
+!/build/
+!/dist/
+!/prodeco.egg-info/
