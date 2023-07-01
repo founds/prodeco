@@ -24,7 +24,7 @@ jobs:
       with:
         python-version: '3.9'
     - name: Setup PyOxidizer and build
-      working-directory: client/
+      working-directory: prodeco/
       run: |
         wget ${PYOXIDIZER_DOWNLOAD}
         unzip pyoxidizer-0.18.0-linux-x86_64.zip
