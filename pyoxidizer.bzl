@@ -249,7 +249,7 @@ def make_exe():
 
     # Invoke `pip install` using a requirements file and add the collected resources
     # to our binary.
-    exe.add_python_resources(exe.pip_install(["-r", "requirements.txt"]))
+    #exe.add_python_resources(exe.pip_install(["-r", "requirements.txt"]))
 
 
     # Read Python files from a local directory and add them to our embedded
@@ -262,7 +262,7 @@ def make_exe():
 
     # Discover Python files from a virtualenv and add them to our embedded
     # context.
-    exe.add_python_resources(exe.read_virtualenv(path="/venv"))
+    #exe.add_python_resources(exe.read_virtualenv(path="/venv"))
 
     # Filter all resources collected so far through a filter of names
     # in a file.
