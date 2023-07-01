@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - 'client/poetry.lock'
-      - 'client/pyoxidizer.bzl'
+      - 'prodeco/poetry.lock'
+      - 'prodeco/pyoxidizer.bzl'
 
 jobs:
   mac_build:
@@ -27,7 +27,7 @@ jobs:
           echo "[telemetry]" >> config.ini
           echo "track = False" >> config.ini
       - name: Get version
-        working-directory: client/
+        working-directory: prodeco/
         run: |
           cat pyproject.toml | grep version -m 1 | awk '{ print "APP_VERSION="substr($3, 2, length($3) -2)}' >> $GITHUB_ENV
       - uses: actions/download-artifact@v3
@@ -65,7 +65,7 @@ jobs:
           echo "[telemetry]" >> config.ini
           echo "track = False" >> config.ini
       - name: Determine App Version
-        working-directory: client/
+        working-directory: prodeco/
         run: |
           python ..\.github\scripts\get_version.py
           echo "${{ env.APP_VERSION }}"
@@ -96,7 +96,7 @@ jobs:
           echo "[telemetry]" >> config.ini
           echo "track = False" >> config.ini
       - name: Get version
-        working-directory: client/
+        working-directory: prodeco/
         run: |
           cat pyproject.toml | grep version -m 1 | awk '{ print "APP_VERSION="substr($3, 2, length($3) -2)}' >> $GITHUB_ENV
       - uses: actions/download-artifact@v3
