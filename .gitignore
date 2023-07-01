@@ -174,3 +174,7 @@ cython_debug/
 /prodeco/Datasources/
 /prodeco/Datasources/*
 !/prodeco/build/
+!/prodeco/pyoxidizer.bzl
+!/prodeco/prodeco.build/
+!/prodeco/dist/
+!/prodeco/build/
