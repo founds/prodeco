@@ -28,13 +28,13 @@ jobs:
       with:
         xcode-version: latest-stable
     - name: Setup PyOxidizer and build
-      working-directory: prodeco/
+      working-directory: src/
       run: |
         wget ${PYOXIDIZER_DOWNLOAD}
         unzip pyoxidizer-0.18.0-macos-universal.zip
         sudo chmod +x ./macos-universal/pyoxidizer
         ./macos-universal/pyoxidizer build exe --release
-        cp `find build/ -name "gefyra"` ../gefyra
+        cp `find build/ -name "prodeco"` ../prodeco
         cp README.md ../README.md
         cat pyproject.toml | grep version -m 1 | awk '{ print "APP_VERSION="substr($3, 2, length($3) -2)}' >> $GITHUB_ENV
     - name: Codesign app bundle
@@ -61,19 +61,19 @@ jobs:
 
         # We finally codesign our app bundle, specifying the Hardened runtime option
         
-        /usr/bin/codesign --force -s "$MACOS_CERTIFICATE_NAME" --options runtime ./gefyra -v
+        /usr/bin/codesign --force -s "$MACOS_CERTIFICATE_NAME" --options runtime ./prodeco -v
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: gefyra-${{ env.APP_VERSION }}-darwin-universal
+        name: prodeco-${{ env.APP_VERSION }}-darwin-universal
         path: |
-          gefyra
+          prodeco
           LICENSE
           README.md
         retention-days: 5
     - name: Create release zip
       if: ${{ github.event.release && github.event.action == 'published' }}
-      run: zip gefyra-${{ env.APP_VERSION }}-darwin-universal.zip "gefyra" "LICENSE" "README.md"
+      run: zip prodeco-${{ env.APP_VERSION }}-darwin-universal.zip "prodeco" "LICENSE" "README.md"
     - name: Attach files to release
       uses: softprops/action-gh-release@v1
       if: ${{ github.event.release && github.event.action == 'published' }}
