@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "prodeco"
+version = "0.2"
+description = "Extraer productos y precios ecologicos de diferentes paginas webs."
+authors = ["altsys <info@altsys.es>"]
+license = "Apache"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
