@@ -184,3 +184,5 @@ cython_debug/
 !/build/
 !/dist/
 !/dist/
+dist
+/dist
